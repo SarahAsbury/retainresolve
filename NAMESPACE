@@ -1,1 +1,5 @@
 exportPattern("^[[:alpha:]]+")
+import(tidyverse)
+import(scales)
+import(phyloseq)
+import(cowplot)
