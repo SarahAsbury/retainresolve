@@ -14,8 +14,6 @@ High quality PDF available also available for download in repository (retainreso
 
 
 ## Install
-Requires R. 
-
 devtools::install_github("SarahAsbury/retainresolve")
 
 
