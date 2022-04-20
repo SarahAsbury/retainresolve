@@ -9,7 +9,8 @@ This R package has been developed to conveniently execute the retain-resolve agg
 
 ## Summary
 ![Retain-resolve algorithim summary](folder/retainresolve_algorithim.png)
-High quality PDF available also available for download in repository (retainresolve_algorithim.pdf).
+
+*Higher quality PDF available also available for download in repository (retainresolve_algorithim.pdf).*
 
 
 
