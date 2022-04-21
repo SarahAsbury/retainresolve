@@ -24,3 +24,5 @@ Once package is installed, use following command in R for retain-resolve glom do
 ?retain.resolve_genus
 
 
+Documentation is also available at: 
+https://rdrr.io/github/SarahAsbury/retainresolve/man/retain.resolve_genus.html
