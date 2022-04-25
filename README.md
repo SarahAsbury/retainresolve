@@ -28,5 +28,5 @@ https://rdrr.io/github/SarahAsbury/retainresolve/man/retain.resolve_genus.html
 ## Example of mean relative abundance and prevalence distributions after retain-resolve
 ![Example of resulting distributions of taxa prevalence of and mean relative abundance after retain-resolve algorithim](folder/mra_prev_dist.png)
 
-mra = taxon mean relative abundance
+mra = taxon mean relative abundance<br/>
 prev = taxon prevalence 
