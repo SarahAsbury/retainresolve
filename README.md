@@ -11,7 +11,7 @@ devtools::install_github("SarahAsbury/retainresolve")
 
 
 ## Use
-Once package is installed, use following command in R for retain-resolve glom documenation:
+Once package is installed, use following command in R for retain-resolve function documenation:
 
 ?retain.resolve_genus
 
