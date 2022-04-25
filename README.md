@@ -26,3 +26,7 @@ Once package is installed, use following command in R for retain-resolve glom do
 
 Documentation is also available at: 
 https://rdrr.io/github/SarahAsbury/retainresolve/man/retain.resolve_genus.html
+
+
+## E.x: All taxa MRA and prevalence distribution after retain-resolve
+![Example of resulting distributions of taxa prevalence of and mean relative abundance after retain-resolve algorithim](folder/mra_prev_dist.png)
