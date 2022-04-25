@@ -319,7 +319,7 @@ mra.prev.vis <- function(rel.criteria, #output from rel.criteria.extract
 )
   #Exports density and scatter plots of prevalence and mean relative abundance to files in the current wd
   {
-  density(log10(rel.criteria$mean_relabund)) %>% plot(main = "Log 10 Relative Abundance") #density
+  density(log10(rel.criteria$mean_relabund)) %>% plot(main = "Log 10 Mean Relative Abundance") #density
   p1 <- recordPlot()
   ggdraw(p1)
 
