@@ -10,7 +10,7 @@ physeq.create(
   mapdf,
   ID.col,
   export.asvsp = TRUE,
-  export.wd = get_wd()
+  export.wd = getwd()
 )
 }
 \arguments{
