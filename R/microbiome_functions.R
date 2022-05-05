@@ -30,9 +30,15 @@ physeq.create <- function(asvdf, #Dataframe; Rownames = sequences (e.g CCTGTT...
                           mapdf, #Dataframe; No specific rownames required. Rows = Samples, Columns = Sample metadata (e.g depression scores, sex, age, etc.)
                           ID.col, #name of the column containing study IDs
                           export.asvsp = TRUE, #export CSV file that maps phyloseq assigned species ID (sp####) to ASV sequences (CCTGGT...)
-                          export.wd  = get_wd() #directory exports will be saved
+                          export.wd  = getwd() #directory exports will be saved
                           )
   {
+  # === Directory ===
+  #Get original directory
+  og.dir <- getwd()
+
+  #Set new export directory
+  setwd(export.wd)
 
   #=== Wrangling ===
   #Standardize ID column
@@ -141,12 +147,12 @@ physeq.create <- function(asvdf, #Dataframe; Rownames = sequences (e.g CCTGTT...
   }
 
     #Create asv_sp key
-    print(paste("Phyloseq taxa table (dat) and ASV sequence taxa df (taxdf.asv) aligned with original taxa df (taxdf) :", all(qc.asv_sp)))
-    print("Create ASV -> phyloseq sp ID# conversion key")
-    sp_asv <- (taxdf.asv %>% rownames) %>% data.frame() %>% dplyr::rename(asv_seq = ".") %>% mutate(sp = dat %>% tax_table %>% rownames())
+    print(paste("Phyloseq taxa table (dat) and ASV sequence taxa df (taxdf.asv) aligned with original taxa df (taxdf) :", unique(qc.asv_sp)))
+    print(paste0("ASV to phyloseq species ID (sp) conversion key created and exported to: ", export.wd, "/asv_spCode.csv"))
+    sp_asv <- (taxdf.asv %>% rownames) %>% data.frame() %>% dplyr::rename(asv_seq = ".") %>% mutate(sp = dat %>% tax_table %>% rownames()) %>% relocate(sp, asv_seq)
 
     #Export
-    write.csv(sp_asv, "asv_spCode.csv")
+    write.csv(sp_asv, "asv_spCode.csv", row.names = FALSE)
   }
 
   #=== Remove host mitochondrial sequences ===
@@ -156,6 +162,10 @@ physeq.create <- function(asvdf, #Dataframe; Rownames = sequences (e.g CCTGTT...
                          (!is.na(Family) &
                             Family == 'Mitochondria')))
 
+
+  # === Directory ===
+  #Reset working directory
+  setwd(og.dir)
 
   # === Return phyloseq object ===
   return(dat2)
