@@ -141,7 +141,7 @@ physeq.create <- function(asvdf, #Dataframe; Rownames = sequences (e.g CCTGTT...
   }
 
     #Create asv_sp key
-    print(paste("Phyloseq taxa table (dat) and ASV sequence taxa df (taxdf.asv) aligned with original taxa df (taxdf) :", qc))
+    print(paste("Phyloseq taxa table (dat) and ASV sequence taxa df (taxdf.asv) aligned with original taxa df (taxdf) :", qc.asv_sp))
     print("Create ASV -> phyloseq sp ID# conversion key")
     sp_asv <- (taxdf.asv %>% rownames) %>% data.frame() %>% dplyr::rename(asv_seq = ".") %>% mutate(sp = dat %>% tax_table %>% rownames())
 
