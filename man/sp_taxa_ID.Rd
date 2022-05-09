@@ -4,12 +4,16 @@
 \alias{sp_taxa_ID}
 \title{Species ID taxonomoc classification}
 \usage{
-sp_taxa_ID(physeq, taxa.col = NA)
+sp_taxa_ID(physeq, taxa.col = NA, remove = FALSE, remove.delimiter = "_")
 }
 \arguments{
 \item{physeq}{Phyloseq object}
 
 \item{taxa.col}{String of taxonomic levels to include in classification. Taxonomic levels must exist in the input phyloseq object. If no input given, defaults to all levels in phyloseq object.}
+
+\item{remove}{TRUE or FALSE. Are there characters that need to be removed after the spID in the taxa rowname to isolate the spID ? If TRUE, spID is extracted (e.g sp1_bacteria_bacteroidetes extracted to sp1)}
+
+\item{remove.delimiter}{Character string that separates sp ID from remaining OTU name characters (e.g sp1_bacteria_bacteroidetes delimiter is "_")}
 }
 \value{
 Returns the phyloseq object with taxonomic classification as part of the taxa name (i.e. phyloseq OTU table rownames now contain taxonomy).
