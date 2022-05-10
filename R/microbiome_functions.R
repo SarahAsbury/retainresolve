@@ -217,7 +217,7 @@ sp_taxa_ID <- function(physeq, #phyloseq object
   asvtaxa <- asvtab[,c("OTU", taxa.col)] %>% unique() %>%
     mutate(tname = do.call(paste, c(asvtab[tname.paste], sep = "_")), #Create new col tname with OTU and full taxonomic details
            OTU_order = parse_number(OTU) %>% as.numeric()) %>%
-    arrange(OTU_order) %>% dplyr::select(-OTU_order)
+    dplyr::select(-OTU_order)
 
 
   #Unit test:
@@ -228,7 +228,7 @@ sp_taxa_ID <- function(physeq, #phyloseq object
     qc.taxa_names <- (asvtaxa$OTU == (tax_table(physeq) %>% row.names())) %>% data.frame() %>% filter(FALSE %in% .) %>% nrow()}
 
   if(remove == TRUE){
-    qc.taxa_names <- (asvtaxa$OTU == (tax_table(physeq) %>% row.names() %>% gsub(x = ., pattern = delim, replacement = ""))) %>%
+    qc.taxa_names <- ((asvtaxa$OTU %>% gsub(pattern = delim, replacement = "")) == (tax_table(physeq) %>% row.names() %>% gsub(pattern = delim, replacement = ""))) %>%
       data.frame() %>% filter(FALSE %in% .) %>% nrow()
   }
 
