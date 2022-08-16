@@ -301,7 +301,8 @@ physeqrel.dataframe <- function(physeq, #relative abundance phyloseq object
   #Total relative abundance sums to 1
   #Returns warning. Script will continue even if test fails, unless warning = FALSE
   qc <- rel %>% group_by(Sample) %>% dplyr::summarize(total_abundance = sum(Abundance))
-  if(min(qc$total_abundance) != 1 | max(qc$total_abundance) != 1){
+  if(ceiling(min(qc$total_abundance)) != 1 |
+     ceiling(max(qc$total_abundance)) != 1){
     if(warning == TRUE){
     warning("Relative abundance does not sum to 1 for all samples.")
     print("Total relative abundance summary:")
@@ -528,6 +529,7 @@ retain.resolve_genus <- function(physeq, #count phyloseq object
 
   #If taxa pass relabund_prev or prev filters, they will be retained.
   {
+  print("QC: Assessing user input.")
 
   # ====== Unit tests: User input ======
   #Unit test: was export input as a logical variable?
@@ -568,6 +570,7 @@ retain.resolve_genus <- function(physeq, #count phyloseq object
 
   #dir = grandparent directory
   #retain_resolve.path-resolve = parent directory
+  print("Prepare: Creating export directories")
 
   #Create retain-resolve (parent)
   if(export == TRUE){
