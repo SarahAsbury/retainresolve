@@ -301,8 +301,8 @@ physeqrel.dataframe <- function(physeq, #relative abundance phyloseq object
   #Total relative abundance sums to 1
   #Returns warning. Script will continue even if test fails, unless warning = FALSE
   qc <- rel %>% group_by(Sample) %>% dplyr::summarize(total_abundance = sum(Abundance))
-  qc.min <- min(qc$total_abundance) %>% trunc
-  qc.max <- max(qc$total_abundance) %>% trunc
+  qc.min <- min(qc$total_abundance) %>% round(digits = 10) %>% trunc
+  qc.max <- max(qc$total_abundance) %>% round(digits = 10) %>% trunc
   if(qc.min != 1 | qc.max != 1){
     print(paste0("Min total rel abund:", qc.min, ". Max total rel abund: ", qc.max))
     if(warning == TRUE){
