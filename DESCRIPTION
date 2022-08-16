@@ -10,5 +10,5 @@ Encoding: UTF-8
 LazyData: true
 RoxygenNote: 7.1.1
 biocViews:
-Imports: tidyverse, scales, phyloseq, cowplot
+Imports: tidyverse, scales, phyloseq, cowplot, gridGraphics
 

@@ -5,6 +5,7 @@ library(tidyverse)
 library(scales)
 library(phyloseq)
 library(cowplot)
+library(gridGraphics)
 
 # Function: Create phyloseq object ----------------------------------------
 
