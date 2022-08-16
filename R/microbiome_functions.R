@@ -207,7 +207,7 @@ sp_taxa_ID <- function(physeq, #phyloseq object
 
 
   #Set taxa names if not givene()
-  if(is.na(taxa.col)){
+  if(is.na(taxa.col[1])){
     taxa.col <- rank_names(physeq)
   }
 
