@@ -304,7 +304,7 @@ physeqrel.dataframe <- function(physeq, #relative abundance phyloseq object
   qc.min <- min(qc$total_abundance) %>% trunc
   qc.max <- max(qc$total_abundance) %>% trunc
   if(qc.min != 1 | qc.max != 1){
-    print(paste0("Min total rel abund:", qc.min ". Max total rel abund: ", qc.max))
+    print(paste0("Min total rel abund:", qc.min, ". Max total rel abund: ", qc.max))
     if(warning == TRUE){
     warning("Relative abundance does not sum to 1 for all samples.")
     print("Total relative abundance summary:")
