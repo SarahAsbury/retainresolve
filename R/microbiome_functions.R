@@ -174,7 +174,7 @@ physeq.create <- function(asvdf, #Dataframe; Rownames = sequences (e.g CCTGTT...
 
 
 
-# Function: Add taxa names to sp ID# ------------------------------------------------
+# Function: Change taxa names (sp ID#, full taxonomic name) ------------------------------------------------
 #Get sp ID and taxonomic identification from phyloseq object (df)
 
 #' Species ID taxonomoc classification
@@ -249,7 +249,21 @@ sp_taxa_ID <- function(physeq, #phyloseq object
 
 
   return(physeq)
-  }
+}
+
+
+
+full_taxonomic_name <- function(physeq #input phyloseq object
+                                )
+  #Returns dataframe containing the full taxonomic name for each spID
+  #Assumes that at minimum, the spID can be found in the rownames
+{
+  tax.df <- as(access(physeq, "tax_table"), "matrix") %>% data.frame
+  tax.df$taxonomic.name <- do.call(paste, c(tax.df[1:ncol(tax.df)], sep = "_"))
+  out <- tax.df %>% select(taxonomic.name) %>% mutate(spID = gsub(x = rownames(.), pattern = "_.*", replacement = "")) %>% relocate(spID, .before = taxonomic.name)
+  return(out)
+}
+
 
 
 
@@ -810,8 +824,8 @@ retain.resolve_genus <- function(physeq, #count phyloseq object
   }
 
 
-  # ====== Save phyloseq species ID of ASV-level and genus-level taxa ======
-  print("Step 5: Save whether phyloseq species ID are ASV-level or genus-level taxa")
+  # ====== ASV-level and genus-level taxa: identification lists ======
+  print("Step 5: Save whether taxa (identified by phyloseq unique species ID) are ASV-level or genus-level taxa")
   genus.taxa <- data.frame("taxa" = dat_g2_pass %>% tax_table %>% rownames,
                            "level" = rep("genus", nrow(dat_g2_pass %>% tax_table)))
   asv.taxa <- data.frame("taxa" = dat_g1_pass %>% tax_table %>% rownames,
@@ -822,10 +836,25 @@ retain.resolve_genus <- function(physeq, #count phyloseq object
     write.csv(glom.spID.levels, "glom_spID_levels.csv", row.names = FALSE)
   }
 
+  print("Step 6: Identify filtered ASVs that belong to resolve genus-level taxa")
+  ResolvedGenus.ASVs <- left_join(full_taxonomic_name(dat_g1_fail) %>% rownames_to_column(var = "ASV") %>% rename(ASV.spID = spID), #failed ASVs
+                                  full_taxonomic_name(dat_g1_fail_glom) %>% rownames_to_column(var = "ResolvedGenus") %>% rename(ResolvedGenus.spID = spID),
+                                  by = "taxonomic.name") %>%
+    filter(taxonomic.name %in% (full_taxonomic_name(dat_g2_pass) %>% pull(taxonomic.name))) %>% # filter to only include passed genera
+    arrange(ResolvedGenus.spID)
+
+  if(export == TRUE){
+    setwd(taxa_lists.path)
+    write.csv(x = ResolvedGenus.ASVs, file = "ResolvedGenus_ASVs.csv", row.names = FALSE)
+    setwd(retain_resolve.path)
+  }
+
+
+
 
 
   # ====== Filtered and merged retain-resolve ASV and genus-level phyloseq object ======
-  print("Step 6: Final retained resolve phyloseq object (dat_glom).")
+  print("Step 7: Final retained resolve phyloseq object (dat_glom).")
   # === Merge ASV and genus-level phyloseq objects ===
   dat_glom <- merge_phyloseq(dat_g1_pass, #ASV-level pass
                              dat_g2_pass #genus-level pass; filtered
@@ -853,7 +882,7 @@ retain.resolve_genus <- function(physeq, #count phyloseq object
   abundDiff_glom_postfilter <- abund_diff
 
   # ====== Other taxa ======
-  print("Step 7: Add Other taxanomic ID for calculations and analyses that require actual total abundance - CLR, relabund. Phyloseq object = dat_glom_aldex.")
+  print("Step 8: Add Other taxanomic ID for calculations and analyses that require actual total abundance - CLR, relabund. Phyloseq object = dat_glom_aldex.")
   #Add "Other" taxa label that accounts for filtered counts
     #Required for relative abundance and CLR/aldex
   #mapdf
@@ -911,7 +940,7 @@ retain.resolve_genus <- function(physeq, #count phyloseq object
 
 
   # ====== Relative abundance phyloseq objects ======
-  print("Step 8: Relative abundance conversions - (dat_empty_rel, dat_rel_glom).")
+  print("Step 9: Relative abundance conversions - (dat_empty_rel, dat_rel_glom).")
 
 
   # === dat_rel_glom ===
@@ -937,7 +966,7 @@ retain.resolve_genus <- function(physeq, #count phyloseq object
 
   # ====== Export phyloseq objects to file ======
   if(export == TRUE){
-    print("Step 9: Export physeq objects")
+    print("Step 10: Export physeq objects")
     #Set wd
     setwd(dir)
     newdir <- "Physeq_glommed_objects"
