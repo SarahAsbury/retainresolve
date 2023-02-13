@@ -11,12 +11,12 @@ devtools::install_github("SarahAsbury/retainresolve")
 
 
 ## Use
-Once package is installed, use following command in R for retain-resolve function documenation:
+Once package is installed, use following command in R for retain-resolve function documenation and examples:
 
 ?retain.resolve_genus
 
 
-Documentation is also available at: 
+Documentation and examples are also available at: 
 https://rdrr.io/github/SarahAsbury/retainresolve/man/retain.resolve_genus.html
 
 ## Summary
